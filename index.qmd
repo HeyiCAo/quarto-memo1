@@ -1,0 +1,69 @@
+---
+title: "Is student math final grade a function of family size?"
+---
+
+## Data Origins
+
+- [Student Performance Dataset - UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student%2Bperformance)
+- File: [student-mat.csv](student-mat.csv)
+- Dependent Variable: final mathematics grade (integer, 0-20)
+- Independent Variable: student family size (boolean, whether or not > 3)
+
+## Analysis & Conclusion
+
+```{python}
+#| label: tbl-summary
+#| tbl-cap: "Final mathematics grade by family size"
+#| echo: false
+
+import pandas as pd
+students = pd.read_csv("student-mat.csv", sep=";")
+summary = (
+    students.groupby("famsize")["G3"]
+    .agg(
+        n="count",
+        mean="mean",
+        sd="std"
+    )
+    .round(2)
+    .rename_axis("Family size")
+    .reset_index()
+    .rename(columns={"n": "N", "mean": "Mean", "sd": "SD"})
+)
+
+summary.style.hide(axis="index").format({
+    "Mean": "{:.2f}",
+    "SD": "{:.2f}",
+})
+```
+
+
+```{python}
+#| echo: false
+
+import pandas as pd
+from scipy import stats
+
+students = pd.read_csv("student-mat.csv", sep=";")
+
+summary = (
+    students.groupby("famsize")["G3"]
+    .agg(["count", "mean", "std"])
+)
+
+summary
+
+le3 = students.loc[students["famsize"] == "LE3", "G3"]
+gt3 = students.loc[students["famsize"] == "GT3", "G3"]
+
+test = stats.ttest_ind(le3, gt3, equal_var=False)
+
+test
+
+print("Results: ")
+print(f"t = {test.statistic:.2f}")
+print(f"df = {test.df:.2f}")
+print(f"p = {test.pvalue:.3f}")
+```
+___
+At the α = .05 significance level, the result failed to reject the null hypothesis. The Welch two-sample t-test did not find a statistically significant difference in final mathematics grades between the two family-size groups, *t*(231.57) = 1.69, *p* = .092. Although students in the `LE3` group had a mean final grade 0.82 points higher than students in the `GT3` group, the evidence is insufficient to conclude that mean final mathematics grade differs by family size.

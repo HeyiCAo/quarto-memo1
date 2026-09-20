@@ -1,0 +1,9 @@
+---
+title: "About"
+---
+
+This site is built with [Quarto](https://quarto.org/).
+
+It is designed to keep research material readable, reproducible, and easy to
+publish as a static website.
+
