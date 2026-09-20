@@ -1,15 +1,12 @@
 ---
-title: "Is student math final grade a function of family size?"
+title: "Research Memorandum"
 ---
 
-## Data Origins
+##### Researcher: Heyi Cao
+##### Date: September 20th, 2026
 
-- [Student Performance Dataset - UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student%2Bperformance)
-- File: [student-mat.csv](student-mat.csv)
-- Dependent Variable: final mathematics grade (integer, 0-20)
-- Independent Variable: student family size (binary categorical, Family size > 3/<=3)
-
-## Analysis & Conclusion
+## Question: Is student math final grade a function of family size?
+## Answer, Response, Summary of Results
 
 ```{python}
 #| label: tbl-summary
@@ -46,13 +43,6 @@ from scipy import stats
 
 students = pd.read_csv("student-mat.csv", sep=";")
 
-summary = (
-    students.groupby("famsize")["G3"]
-    .agg(["count", "mean", "std"])
-)
-
-summary
-
 le3 = students.loc[students["famsize"] == "LE3", "G3"]
 gt3 = students.loc[students["famsize"] == "GT3", "G3"]
 
@@ -66,4 +56,12 @@ print(f"df = {test.df:.2f}")
 print(f"p = {test.pvalue:.3f}")
 ```
 ___
-At the α = .05 significance level, the result failed to reject the null hypothesis. The Welch two-sample t-test did not find a statistically significant difference in final mathematics grades between the two family-size groups, *t*(231.57) = 1.69, *p* = .092. Although students in the `LE3` group had a mean final grade 0.82 points higher than students in the `GT3` group, the evidence is insufficient to conclude that mean final mathematics grade differs by family size.
+At the α = .05 significance level, the result failed to reject the null hypothesis.
+
+The Welch two-sample t-test did not find a statistically significant difference in final mathematics grades between the two family-size groups, *t*(231.57) = 1.69, *p* = .092.
+
+Although students in the `LE3` group had a mean final grade 0.82 points higher than students in the `GT3` group, the evidence is insufficient to conclude that mean final mathematics grade differs by family size.
+
+## Remaining questions and uncertainties
+Although family size is measured as a categorical variable in this test, other factors, such as family characteristics and exact family size are not accounted.
+
