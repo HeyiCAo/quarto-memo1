@@ -7,7 +7,7 @@ title: "Is student math final grade a function of family size?"
 - [Student Performance Dataset - UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student%2Bperformance)
 - File: [student-mat.csv](student-mat.csv)
 - Dependent Variable: final mathematics grade (integer, 0-20)
-- Independent Variable: student family size (boolean, whether or not > 3)
+- Independent Variable: student family size (binary categorical, Family size > 3/<=3)
 
 ## Analysis & Conclusion
 
