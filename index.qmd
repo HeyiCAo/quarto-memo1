@@ -1,10 +1,17 @@
 ---
-title: "Research Memorandum"
+title: "Is student math final grade a function of family size?"
+author: Heyi Cao
+date: 2026-09-20
+date-format: long
 ---
-##### Researcher: Heyi Cao
-##### Date: September 20th, 2026
-## Question: Is student math final grade a function of family size?
+
+## Research Question
+
+Is student math final grade a function of family size?
+
 ## Answer, Response, Summary of Results
+No, given these data and this analysis, student math final grade in math is not a function of family size.
+Analysis involve conducting T-test with math final grade as continuous variable and family size as binary, categorical variable.
 ```{python}
 #| label: tbl-summary
 #| tbl-cap: "Final mathematics grade by family size"
@@ -24,16 +31,18 @@ summary = (
     .reset_index()
     .rename(columns={"n": "N", "mean": "Mean", "sd": "SD"})
 )
-
 summary.style.hide(axis="index").format({
     "Mean": "{:.2f}",
     "SD": "{:.2f}",
 })
 ```
+In @tbl-summary, students in the `LE3` group had a higher mean final grade, a smaller sample size, and a lower standard deviation than students in the `GT3` group.
 ```{python}
+#| echo: true
 
 import pandas as pd
 from scipy import stats
+from IPython.display import display, Markdown
 
 students = pd.read_csv("student-mat.csv", sep=";")
 
@@ -42,17 +51,13 @@ gt3 = students.loc[students["famsize"] == "GT3", "G3"]
 
 test = stats.ttest_ind(le3, gt3, equal_var=False)
 
-test
-
-print("Results: ")
-print(f"t = {test.statistic:.2f}")
-print(f"df = {test.df:.2f}")
-print(f"p = {test.pvalue:.3f}")
+display(Markdown(
+    f"**Welch two-sample t-test:** "
+    f"*t*({test.df:.2f}) = {test.statistic:.2f}, "
+    f"*p* = {test.pvalue:.3f}."
+))
 ```
-___
-At the α = .05 significance level, the result failed to reject the null hypothesis.
-The Welch two-sample t-test did not find a statistically significant difference in final mathematics grades between the two family-size groups, *t*(231.57) = 1.69, *p* = .092.
-Although students in the `LE3` group had a mean final grade 0.82 points higher than students in the `GT3` group, the evidence is insufficient to conclude that mean final mathematics grade differs by family size.
+At the α = .05 significance level, the result failed to reject the null hypothesis. The T-test did not find a statistically significant difference in final mathematics grades between the two family-size groups. It is insufficient to conclude that mean final mathematics grade differs by family size.
 
 ## Remaining questions and uncertainties
 The dataset records family size only as LE3 or GT3, so differences associated with exact family size cannot be examined. Other student and family characteristics that may be related to mathematics performance are also not accounted for in this analysis.
