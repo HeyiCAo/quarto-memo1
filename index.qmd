@@ -1,13 +1,10 @@
 ---
 title: "Research Memorandum"
 ---
-
 ##### Researcher: Heyi Cao
 ##### Date: September 20th, 2026
-
 ## Question: Is student math final grade a function of family size?
 ## Answer, Response, Summary of Results
-
 ```{python}
 #| label: tbl-summary
 #| tbl-cap: "Final mathematics grade by family size"
@@ -33,10 +30,7 @@ summary.style.hide(axis="index").format({
     "SD": "{:.2f}",
 })
 ```
-
-
 ```{python}
-#| echo: false
 
 import pandas as pd
 from scipy import stats
@@ -57,11 +51,8 @@ print(f"p = {test.pvalue:.3f}")
 ```
 ___
 At the α = .05 significance level, the result failed to reject the null hypothesis.
-
 The Welch two-sample t-test did not find a statistically significant difference in final mathematics grades between the two family-size groups, *t*(231.57) = 1.69, *p* = .092.
-
 Although students in the `LE3` group had a mean final grade 0.82 points higher than students in the `GT3` group, the evidence is insufficient to conclude that mean final mathematics grade differs by family size.
 
 ## Remaining questions and uncertainties
-Although family size is measured as a categorical variable in this test, other factors, such as family characteristics and exact family size are not accounted.
-
+The dataset records family size only as LE3 or GT3, so differences associated with exact family size cannot be examined. Other student and family characteristics that may be related to mathematics performance are also not accounted for in this analysis.
